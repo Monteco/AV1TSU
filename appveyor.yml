@@ -1,1 +1,6 @@
 image: Visual Studio 2017
+configuration: Release
+
+artifacts:
+    - path: bin\Release\*.*
+      name: $(APPVEYOR_PROJECT_NAME)
