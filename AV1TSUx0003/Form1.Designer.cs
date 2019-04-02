@@ -49,9 +49,14 @@
             this.Resolution = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
             this.Speed = new System.Windows.Forms.NumericUpDown();
+            this.EncodingMode = new System.Windows.Forms.ComboBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.VideoBitrate = new System.Windows.Forms.NumericUpDown();
+            this.label10 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.ConstantQuality)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.AudioBitrate)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Speed)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.VideoBitrate)).BeginInit();
             this.SuspendLayout();
             // 
             // InputLocation
@@ -115,7 +120,7 @@
             this.Encoder.Items.AddRange(new object[] {
             "libaom-av1",
             "rav1e"});
-            this.Encoder.Location = new System.Drawing.Point(13, 80);
+            this.Encoder.Location = new System.Drawing.Point(13, 79);
             this.Encoder.Name = "Encoder";
             this.Encoder.Size = new System.Drawing.Size(121, 21);
             this.Encoder.TabIndex = 0;
@@ -124,7 +129,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(138, 63);
+            this.label2.Location = new System.Drawing.Point(520, 63);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(38, 13);
             this.label2.TabIndex = 6;
@@ -133,7 +138,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(266, 63);
+            this.label3.Location = new System.Drawing.Point(520, 129);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(84, 13);
             this.label3.TabIndex = 8;
@@ -141,7 +146,7 @@
             // 
             // ConstantQuality
             // 
-            this.ConstantQuality.Location = new System.Drawing.Point(269, 80);
+            this.ConstantQuality.Location = new System.Drawing.Point(523, 148);
             this.ConstantQuality.Maximum = new decimal(new int[] {
             63,
             0,
@@ -160,7 +165,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(395, 63);
+            this.label4.Location = new System.Drawing.Point(402, 129);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(73, 13);
             this.label4.TabIndex = 10;
@@ -173,7 +178,7 @@
             this.Multithreading.Items.AddRange(new object[] {
             "False",
             "True"});
-            this.Multithreading.Location = new System.Drawing.Point(398, 80);
+            this.Multithreading.Location = new System.Drawing.Point(394, 147);
             this.Multithreading.Name = "Multithreading";
             this.Multithreading.Size = new System.Drawing.Size(121, 21);
             this.Multithreading.TabIndex = 11;
@@ -193,7 +198,7 @@
             "yuv420p12le",
             "yuv422p12le",
             "yuv444p12le"});
-            this.PixelFormat.Location = new System.Drawing.Point(15, 147);
+            this.PixelFormat.Location = new System.Drawing.Point(12, 145);
             this.PixelFormat.Name = "PixelFormat";
             this.PixelFormat.Size = new System.Drawing.Size(121, 21);
             this.PixelFormat.TabIndex = 12;
@@ -202,7 +207,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 131);
+            this.label5.Location = new System.Drawing.Point(10, 129);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(64, 13);
             this.label5.TabIndex = 13;
@@ -215,7 +220,7 @@
             this.Tiles.Items.AddRange(new object[] {
             "4x1",
             "2x2"});
-            this.Tiles.Location = new System.Drawing.Point(141, 147);
+            this.Tiles.Location = new System.Drawing.Point(140, 145);
             this.Tiles.Name = "Tiles";
             this.Tiles.Size = new System.Drawing.Size(121, 21);
             this.Tiles.TabIndex = 14;
@@ -224,7 +229,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(141, 130);
+            this.label6.Location = new System.Drawing.Point(137, 129);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(29, 13);
             this.label6.TabIndex = 15;
@@ -232,7 +237,7 @@
             // 
             // AudioBitrate
             // 
-            this.AudioBitrate.Location = new System.Drawing.Point(269, 147);
+            this.AudioBitrate.Location = new System.Drawing.Point(265, 147);
             this.AudioBitrate.Maximum = new decimal(new int[] {
             512,
             0,
@@ -251,7 +256,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(269, 130);
+            this.label7.Location = new System.Drawing.Point(267, 129);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(67, 13);
             this.label7.TabIndex = 17;
@@ -271,7 +276,7 @@
             "1080",
             "1440",
             "2160"});
-            this.Resolution.Location = new System.Drawing.Point(398, 146);
+            this.Resolution.Location = new System.Drawing.Point(264, 78);
             this.Resolution.Name = "Resolution";
             this.Resolution.Size = new System.Drawing.Size(121, 21);
             this.Resolution.TabIndex = 18;
@@ -280,7 +285,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(398, 130);
+            this.label8.Location = new System.Drawing.Point(267, 63);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(57, 13);
             this.label8.TabIndex = 19;
@@ -288,7 +293,7 @@
             // 
             // Speed
             // 
-            this.Speed.Location = new System.Drawing.Point(141, 80);
+            this.Speed.Location = new System.Drawing.Point(520, 79);
             this.Speed.Name = "Speed";
             this.Speed.Size = new System.Drawing.Size(120, 20);
             this.Speed.TabIndex = 20;
@@ -299,11 +304,71 @@
             0});
             this.Speed.ValueChanged += new System.EventHandler(this.Speed_ValueChanged);
             // 
+            // EncodingMode
+            // 
+            this.EncodingMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.EncodingMode.FormattingEnabled = true;
+            this.EncodingMode.Items.AddRange(new object[] {
+            "Constant Quality",
+            "Constrained Quality",
+            "Two-Pass",
+            "Average Bitrate"});
+            this.EncodingMode.Location = new System.Drawing.Point(138, 79);
+            this.EncodingMode.Name = "EncodingMode";
+            this.EncodingMode.Size = new System.Drawing.Size(121, 21);
+            this.EncodingMode.TabIndex = 21;
+            this.EncodingMode.SelectedIndexChanged += new System.EventHandler(this.EncodingMode_SelectedIndexChanged);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(137, 63);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(82, 13);
+            this.label9.TabIndex = 22;
+            this.label9.Text = "Encoding Mode";
+            // 
+            // VideoBitrate
+            // 
+            this.VideoBitrate.Location = new System.Drawing.Point(392, 79);
+            this.VideoBitrate.Maximum = new decimal(new int[] {
+            9999999,
+            0,
+            0,
+            0});
+            this.VideoBitrate.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.VideoBitrate.Name = "VideoBitrate";
+            this.VideoBitrate.Size = new System.Drawing.Size(120, 20);
+            this.VideoBitrate.TabIndex = 23;
+            this.VideoBitrate.Value = new decimal(new int[] {
+            2000,
+            0,
+            0,
+            0});
+            this.VideoBitrate.ValueChanged += new System.EventHandler(this.VideoBitrate_ValueChanged);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(392, 62);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(67, 13);
+            this.label10.TabIndex = 24;
+            this.label10.Text = "Video Bitrate";
+            // 
             // Window
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(729, 333);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.VideoBitrate);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.EncodingMode);
             this.Controls.Add(this.Speed);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.Resolution);
@@ -331,6 +396,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.ConstantQuality)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.AudioBitrate)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Speed)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.VideoBitrate)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -359,6 +425,10 @@
         private System.Windows.Forms.ComboBox Resolution;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.NumericUpDown Speed;
+        private System.Windows.Forms.ComboBox EncodingMode;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.NumericUpDown VideoBitrate;
+        private System.Windows.Forms.Label label10;
     }
 }
 

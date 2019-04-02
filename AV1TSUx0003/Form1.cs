@@ -23,6 +23,7 @@ namespace AV1TSUx0003
             PixelFormat.SelectedIndex = 3;
             Tiles.SelectedIndex = 0;
             Resolution.SelectedIndex = 0;
+            EncodingMode.SelectedIndex = 0;
         }
         private void Window_Load(object sender, EventArgs e)
         {
@@ -52,24 +53,51 @@ namespace AV1TSUx0003
             string command = "";
             if(Encoder.Text == "libaom-av1")
             {
-                ProcessStartInfo StartInfo = new ProcessStartInfo();
-                command += " -i " + InputLocation.Text;
-                command += " -strict experimental -c:v " + Encoder.Text;
-                command += " -cpu-used " + Speed.Text;
-                command += " -crf " + ConstantQuality.Text.ToString() + " -b:v 0";
-                if (Resolution.SelectedIndex > 0)
+                if (EncodingMode.Text == "Constant Quality")
                 {
-                    command += " -vf scale=" + Resolution.Text.ToString() + ":-1 ";
+                    ProcessStartInfo StartInfo = new ProcessStartInfo();
+                    command += " -i " + InputLocation.Text;
+                    command += " -strict experimental -c:v " + Encoder.Text;
+                    command += " -cpu-used " + Speed.Text;
+                    command += " -crf " + ConstantQuality.Text.ToString();
+                    command += " -b:v 0";               //+ VideoBitrate.Value.ToString();
+                    if (Resolution.SelectedIndex > 0)
+                    {
+                        command += " -vf scale=" + Resolution.Text.ToString() + ":-1 ";
+                    }
+                    command += " -row-mt " + Multithreading.SelectedIndex.ToString();
+                    command += " -pix_fmt " + PixelFormat.Text;
+                    command += " -tiles " + Tiles.Text;
+                    command += " -c:a libopus -ac 2 -b:a " + AudioBitrate.Text.ToString() + "k";
+                    command += " -vbr on" + " -compression_level 10";
+                    command += " " + OutputLocation.Text;
+                    StartInfo.Arguments = command;
+                    StartInfo.FileName = "ffmpeg.exe";
+                    Process.Start(StartInfo).WaitForExit();
                 }
-                command += " -row-mt " + Multithreading.SelectedIndex.ToString();
-                command += " -pix_fmt " + PixelFormat.Text;
-                command += " -tiles " + Tiles.Text;
-                command += " -c:a libopus -ac 2 -b:a " + AudioBitrate.Text.ToString() + "k";
-                command += " -vbr on" + " -compression_level 10";
-                command += " " + OutputLocation.Text;
-                StartInfo.Arguments = command;
-                StartInfo.FileName = "ffmpeg.exe";
-                Process.Start(StartInfo).WaitForExit();
+                else if (EncodingMode.Text == "Constrained Quality")
+                {
+                    ProcessStartInfo StartInfo = new ProcessStartInfo();
+                    command += " -i " + InputLocation.Text;
+                    command += " -strict experimental -c:v " + Encoder.Text;
+                    command += " -cpu-used " + Speed.Text;
+                    command += " -crf " + ConstantQuality.Text.ToString();
+                    command += " -b:v 0" + VideoBitrate.Value.ToString();
+                    if (Resolution.SelectedIndex > 0)
+                    {
+                        command += " -vf scale=" + Resolution.Text.ToString() + ":-1 ";
+                    }
+                    command += " -row-mt " + Multithreading.SelectedIndex.ToString();
+                    command += " -pix_fmt " + PixelFormat.Text;
+                    command += " -tiles " + Tiles.Text;
+                    command += " -c:a libopus -ac 2 -b:a " + AudioBitrate.Text.ToString() + "k";
+                    command += " -vbr on" + " -compression_level 10";
+                    command += " " + OutputLocation.Text;
+                    StartInfo.Arguments = command;
+                    StartInfo.FileName = "ffmpeg.exe";
+                    Process.Start(StartInfo).WaitForExit();
+                }
+
             }
             else if(Encoder.Text == "rav1e")
             {
@@ -149,6 +177,7 @@ namespace AV1TSUx0003
                 Tiles.Enabled = false;
                 Multithreading.Enabled = false;
                 Resolution.Enabled = false;
+                EncodingMode.Enabled = false;
             }
             if(Encoder.Text == "libaom-av1")
             {
@@ -160,10 +189,29 @@ namespace AV1TSUx0003
                 Tiles.Enabled = true;
                 Multithreading.Enabled = true;
                 Resolution.Enabled = true;
+                EncodingMode.Enabled = true;
             }
         }
 
         private void Speed_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void EncodingMode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(EncodingMode.Text == "Constant Quality")
+            {
+                VideoBitrate.Enabled = false;
+            }
+            else if(EncodingMode.Text == "Constrained Quality")
+            {
+                VideoBitrate.Enabled = true;
+            }
+
+        }
+
+        private void VideoBitrate_ValueChanged(object sender, EventArgs e)
         {
 
         }
