@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ namespace AV1TSUx0003
     public partial class Window : Form
     {
         int ContainerIndex;
+        string NUL;
         public Window()
         {
             InitializeComponent();
@@ -63,10 +65,10 @@ namespace AV1TSUx0003
                     command += " -strict experimental -c:v " + Encoder.Text;
                     command += " -cpu-used " + Speed.Text;
                     command += " -crf " + ConstantQuality.Text.ToString();
-                    command += " -b:v 0";               //+ VideoBitrate.Value.ToString();
+                    command += " -b:v 0";
                     if (Resolution.SelectedIndex > 0)
                     {
-                        command += " -vf scale=" + Resolution.Text.ToString() + ":-1 ";
+                        command += " -vf scale=-1:" + Resolution.Text.ToString();
                     }
                     command += " -row-mt " + Multithreading.SelectedIndex.ToString();
                     command += " -pix_fmt " + PixelFormat.Text;
@@ -79,6 +81,7 @@ namespace AV1TSUx0003
                     StartInfo.FileName = "ffmpeg.exe";
                     Process.Start(StartInfo).WaitForExit();
                 }
+
                 else if (EncodingMode.Text == "Constrained Quality")
                 {
                     ProcessStartInfo StartInfo = new ProcessStartInfo();
@@ -86,15 +89,16 @@ namespace AV1TSUx0003
                     command += " -strict experimental -c:v " + Encoder.Text;
                     command += " -cpu-used " + Speed.Text;
                     command += " -crf " + ConstantQuality.Text.ToString();
-                    command += " -b:v 0" + VideoBitrate.Value.ToString() + "k";
+                    command += " -b:v " + VideoBitrate.Value.ToString() + "k";
                     if (Resolution.SelectedIndex > 0)
                     {
-                        command += " -vf scale=" + Resolution.Text.ToString() + ":-1 ";
+                        command += " -vf scale=-1:" + Resolution.Text.ToString();
                     }
                     command += " -row-mt " + Multithreading.SelectedIndex.ToString();
                     command += " -pix_fmt " + PixelFormat.Text;
                     command += " -tiles " + Tiles.Text;
-                    command += " -c:a libopus -ac " + AudioChannel.SelectedIndex + 1.ToString();
+                    command += " -c:a libopus";
+                    command += " -ac " + AudioChannel.SelectedIndex + 1.ToString();
                     command += " -b:a " + AudioBitrate.Text.ToString() + "k";
                     command += " -vbr on" + " -compression_level 10";
                     command += " " + OutputLocation.Text;
@@ -106,12 +110,12 @@ namespace AV1TSUx0003
                 else if (EncodingMode.Text == "Two-Pass")
                 {
                     ProcessStartInfo StartInfo = new ProcessStartInfo();
-                    command += "/C ffmpeg.exe -i " + InputLocation.Text;
+                    command += "/C ffmpeg.exe -y -i " + InputLocation.Text;
                     command += " -strict experimental -c:v " + Encoder.Text;
                     command += " -b:v " + VideoBitrate.Value.ToString() + "k";
                     if (Resolution.SelectedIndex > 0)
                     {
-                        command += " -vf scale=" + Resolution.Text.ToString() + ":-1";
+                        command += " -vf scale=-1:" + Resolution.Text.ToString();
                     }
                     command += " -row-mt " + Multithreading.SelectedIndex.ToString();
                     command += " -pix_fmt " + PixelFormat.Text;
@@ -125,19 +129,20 @@ namespace AV1TSUx0003
                     {
                         command += " webm NUL &&";
                     }
-                    command += " ffmpeg.exe -i " + InputLocation.Text;
+                    command += " ffmpeg.exe -y -i " + InputLocation.Text;
                     command += " -strict experimental -c:v " + Encoder.Text;
                     command += " -cpu-used " + Speed.Text;
                     command += " -b:v " + VideoBitrate.Value.ToString() + "k";
                     if (Resolution.SelectedIndex > 0)
                     {
-                        command += " -vf scale=" + Resolution.Text.ToString() + ":-1";
+                        command += " -vf scale=-1:" + Resolution.Text.ToString();
                     }
                     command += " -row-mt " + Multithreading.SelectedIndex.ToString();
                     command += " -pix_fmt " + PixelFormat.Text;
                     command += " -tiles " + Tiles.Text;
                     command += " -pass 2";
-                    command += " -c:a libopus -ac " + AudioChannel.SelectedIndex + 1.ToString();
+                    command += " -c:a libopus";
+                    command += " -ac " + AudioChannel.SelectedIndex + 1.ToString();
                     command += " -b:a " + AudioBitrate.Text.ToString() + "k";
                     command += " -vbr on" + " -compression_level 10";
                     command += " " + OutputLocation.Text;
