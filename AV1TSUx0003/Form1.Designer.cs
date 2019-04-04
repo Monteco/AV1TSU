@@ -53,6 +53,8 @@
             this.label9 = new System.Windows.Forms.Label();
             this.VideoBitrate = new System.Windows.Forms.NumericUpDown();
             this.label10 = new System.Windows.Forms.Label();
+            this.AudioChannel = new System.Windows.Forms.ComboBox();
+            this.label11 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.ConstantQuality)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.AudioBitrate)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Speed)).BeginInit();
@@ -360,11 +362,35 @@
             this.label10.TabIndex = 24;
             this.label10.Text = "Video Bitrate";
             // 
+            // AudioChannel
+            // 
+            this.AudioChannel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.AudioChannel.FormattingEnabled = true;
+            this.AudioChannel.Items.AddRange(new object[] {
+            "Mono",
+            "Stereo"});
+            this.AudioChannel.Location = new System.Drawing.Point(13, 220);
+            this.AudioChannel.Name = "AudioChannel";
+            this.AudioChannel.Size = new System.Drawing.Size(121, 21);
+            this.AudioChannel.TabIndex = 25;
+            this.AudioChannel.SelectedIndexChanged += new System.EventHandler(this.AudioChannel_SelectedIndexChanged);
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(13, 201);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(76, 13);
+            this.label11.TabIndex = 26;
+            this.label11.Text = "Audio Channel";
+            // 
             // Window
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(729, 333);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.AudioChannel);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.VideoBitrate);
             this.Controls.Add(this.label9);
@@ -429,6 +455,8 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.NumericUpDown VideoBitrate;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.ComboBox AudioChannel;
+        private System.Windows.Forms.Label label11;
     }
 }
 
