@@ -56,12 +56,12 @@ namespace AV1TSUx0003
         private void Start_Click(object sender, EventArgs e)
         {
             string command = "";
-            if(Encoder.Text == "libaom-av1")
+            if (Encoder.Text == "libaom-av1")
             {
                 if (EncodingMode.Text == "Constant Quality")
                 {
                     ProcessStartInfo StartInfo = new ProcessStartInfo();
-                    command += " -i " + InputLocation.Text;
+                    command += " -y -i " + InputLocation.Text;
                     command += " -strict experimental -c:v " + Encoder.Text;
                     command += " -cpu-used " + Speed.Text;
                     command += " -crf " + ConstantQuality.Text.ToString();
@@ -81,11 +81,10 @@ namespace AV1TSUx0003
                     StartInfo.FileName = "ffmpeg.exe";
                     Process.Start(StartInfo).WaitForExit();
                 }
-
                 else if (EncodingMode.Text == "Constrained Quality")
                 {
                     ProcessStartInfo StartInfo = new ProcessStartInfo();
-                    command += " -i " + InputLocation.Text;
+                    command += " -y -i " + InputLocation.Text;
                     command += " -strict experimental -c:v " + Encoder.Text;
                     command += " -cpu-used " + Speed.Text;
                     command += " -crf " + ConstantQuality.Text.ToString();
@@ -121,11 +120,11 @@ namespace AV1TSUx0003
                     command += " -pix_fmt " + PixelFormat.Text;
                     command += " -tiles " + Tiles.Text;
                     command += " -pass 1 -an -f";
-                    if(ContainerIndex == 1)
+                    if (ContainerIndex == 1)
                     {
                         command += " matroska NUL &&";
                     }
-                    else if(ContainerIndex == 2)
+                    else if (ContainerIndex == 2)
                     {
                         command += " webm NUL &&";
                     }
@@ -150,9 +149,31 @@ namespace AV1TSUx0003
                     StartInfo.FileName = "cmd.exe";
                     Process.Start(StartInfo).WaitForExit();
                 }
-
+                else if (EncodingMode.Text == "Average Bitrate")
+                {
+                    ProcessStartInfo StartInfo = new ProcessStartInfo();
+                    command += " -y -i " + InputLocation.Text;
+                    command += " -strict experimental -c:v " + Encoder.Text;
+                    command += " -cpu-used " + Speed.Text;
+                    command += " -b:v " + VideoBitrate.Value.ToString() + "k";
+                    if (Resolution.SelectedIndex > 0)
+                    {
+                        command += " -vf scale=-1:" + Resolution.Text.ToString();
+                    }
+                    command += " -row-mt " + Multithreading.SelectedIndex.ToString();
+                    command += " -pix_fmt " + PixelFormat.Text;
+                    command += " -tiles " + Tiles.Text;
+                    command += " -c:a libopus";
+                    command += " -ac " + AudioChannel.SelectedIndex + 1.ToString();
+                    command += " -b:a " + AudioBitrate.Text.ToString() + "k";
+                    command += " -vbr on" + " -compression_level 10";
+                    command += " " + OutputLocation.Text;
+                    StartInfo.Arguments = command;
+                    StartInfo.FileName = "ffmpeg.exe";
+                    Process.Start(StartInfo).WaitForExit();
+                }
             }
-            else if(Encoder.Text == "rav1e")
+            else if (Encoder.Text == "rav1e")
             {
                 command = "";
                 ProcessStartInfo StartInfo = new ProcessStartInfo();
@@ -167,7 +188,7 @@ namespace AV1TSUx0003
                 Process.Start(StartInfo).WaitForExit();
                 command = "";
                 command += " -i " + InputLocation.Text;
-                command += " -c:a libopus -ac " + AudioChannel.SelectedIndex + 1 .ToString();
+                command += " -c:a libopus -ac " + AudioChannel.SelectedIndex + 1.ToString();
                 command += " -b:a " + AudioBitrate.Text.ToString() + "k";
                 command += " -vbr on" + " -compression_level 10";
                 command += " audio.opus";
@@ -265,6 +286,11 @@ namespace AV1TSUx0003
                 VideoBitrate.Enabled = true;
             }
             else if(EncodingMode.Text == "Two-Pass")
+            {
+                ConstantQuality.Enabled = false;
+                VideoBitrate.Enabled = true;
+            }
+            else if(EncodingMode.Text == "Average Bitrate")
             {
                 ConstantQuality.Enabled = false;
                 VideoBitrate.Enabled = true;
