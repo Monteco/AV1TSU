@@ -28,22 +28,20 @@ namespace AV1TSUx0003
             Resolution.SelectedIndex = 0;
             EncodingMode.SelectedIndex = 0;
             AudioChannel.SelectedIndex = 1;
+            
         }
         private void Window_Load(object sender, EventArgs e)
         {
         }
-
         private void Input_Click(object sender, EventArgs e)
         {
             OpenFileDialog Input = new OpenFileDialog();
             Input.ShowDialog();
             InputLocation.Text = Input.FileName;
         }
-
         private void InputLocation_TextChanged(object sender, EventArgs e)
         {
         }
-
         private void Output_Click(object sender, EventArgs e)
         {
             SaveFileDialog Output = new SaveFileDialog();
@@ -52,7 +50,6 @@ namespace AV1TSUx0003
             ContainerIndex = Output.FilterIndex;
             OutputLocation.Text = Output.FileName;
         }
-
         private void Start_Click(object sender, EventArgs e)
         {
             string command = "";
@@ -61,7 +58,7 @@ namespace AV1TSUx0003
                 if (EncodingMode.Text == "Constant Quality")
                 {
                     ProcessStartInfo StartInfo = new ProcessStartInfo();
-                    command += " -y -i " + InputLocation.Text;
+                    command += " -y -i " + InputLocation.Text.ToString();
                     command += " -strict experimental -c:v " + Encoder.Text;
                     command += " -cpu-used " + Speed.Text;
                     command += " -crf " + ConstantQuality.Text.ToString();
@@ -78,13 +75,14 @@ namespace AV1TSUx0003
                     command += " -vbr on" + " -compression_level 10";
                     command += " " + OutputLocation.Text;
                     StartInfo.Arguments = command;
+                    MessageBox.Show(command);
                     StartInfo.FileName = "ffmpeg.exe";
                     Process.Start(StartInfo).WaitForExit();
                 }
                 else if (EncodingMode.Text == "Constrained Quality")
                 {
                     ProcessStartInfo StartInfo = new ProcessStartInfo();
-                    command += " -y -i " + InputLocation.Text;
+                    command += " -y -i " + InputLocation.Text.ToString();
                     command += " -strict experimental -c:v " + Encoder.Text;
                     command += " -cpu-used " + Speed.Text;
                     command += " -crf " + ConstantQuality.Text.ToString();
@@ -105,11 +103,10 @@ namespace AV1TSUx0003
                     StartInfo.FileName = "ffmpeg.exe";
                     Process.Start(StartInfo).WaitForExit();
                 }
-                //////////////////////////////////////////////////////////////////////////////////////
                 else if (EncodingMode.Text == "Two-Pass")
                 {
                     ProcessStartInfo StartInfo = new ProcessStartInfo();
-                    command += "/C ffmpeg.exe -y -i " + InputLocation.Text;
+                    command += "/C ffmpeg.exe -y -i " + InputLocation.Text.ToString();
                     command += " -strict experimental -c:v " + Encoder.Text;
                     command += " -b:v " + VideoBitrate.Value.ToString() + "k";
                     if (Resolution.SelectedIndex > 0)
@@ -128,7 +125,7 @@ namespace AV1TSUx0003
                     {
                         command += " webm NUL &&";
                     }
-                    command += " ffmpeg.exe -y -i " + InputLocation.Text;
+                    command += " ffmpeg.exe -y -i " + InputLocation.Text.ToString();
                     command += " -strict experimental -c:v " + Encoder.Text;
                     command += " -cpu-used " + Speed.Text;
                     command += " -b:v " + VideoBitrate.Value.ToString() + "k";
@@ -152,7 +149,7 @@ namespace AV1TSUx0003
                 else if (EncodingMode.Text == "Average Bitrate")
                 {
                     ProcessStartInfo StartInfo = new ProcessStartInfo();
-                    command += " -y -i " + InputLocation.Text;
+                    command += " -y -i " + InputLocation.Text.ToString();
                     command += " -strict experimental -c:v " + Encoder.Text;
                     command += " -cpu-used " + Speed.Text;
                     command += " -b:v " + VideoBitrate.Value.ToString() + "k";
@@ -172,6 +169,61 @@ namespace AV1TSUx0003
                     StartInfo.FileName = "ffmpeg.exe";
                     Process.Start(StartInfo).WaitForExit();
                 }
+                /*else if (EncodingMode.Text == "Experimental")
+                {
+                    //AUDIO
+                    ProcessStartInfo StartInfo = new ProcessStartInfo();
+                    Directory.CreateDirectory("TemporaryFiles");
+                    command = " -y -i " + InputLocation.Text;
+                    command += " -vn";
+                    command += " -c:a libopus";
+                    command += " -ac " + AudioChannel.SelectedIndex + 1.ToString();
+                    command += " -b:a " + AudioBitrate.Text.ToString() + "k";
+                    command += " -vbr on" + " -compression_level 10 ";
+                    command += Directory.GetCurrentDirectory();
+                    command += "\\TemporaryFiles\\AUDIO.opus";
+                    StartInfo.Arguments = command;
+                    StartInfo.FileName = "ffmpeg.exe";
+                    Process.Start(StartInfo).WaitForExit();
+                    //VIDEO
+                    command = " -y -i " + InputLocation.Text;
+                    command += " -acodec copy";
+                    command += " -f segment";
+                    command += " -vcodec copy";//
+                    command += " -an";
+                    command += " -reset_timestamps 1";
+                    command += " -map 0 ";
+                    command += Directory.GetCurrentDirectory();
+                    command += "\\TemporaryFiles\\VIDEO%d.mkv";
+                    StartInfo.Arguments = command;
+                    StartInfo.FileName = "ffmpeg.exe";
+                    Process.Start(StartInfo).WaitForExit();
+                    //FILE COUNT
+                    int NumberOfVideos = Directory.GetFiles(Directory.GetCurrentDirectory() + "\\TemporaryFiles", "*.mkv").Length;
+                    //VIDEO MERGING
+
+                    int VideosPerCore, LeftoverVideos, Cores = 8;
+                    VideosPerCore = NumberOfVideos / Cores;
+                    LeftoverVideos = NumberOfVideos % Cores;
+
+                    //for(int i = 0; i < Cores; i++)
+                    //{
+                    //    for(int j = 0; j < VideosPerCore; j++)
+                    //    {
+                    //
+                    //    }
+                    //}
+                     command = "/C ffmpeg.exe -y -i VIDEO0.mkv VIDEO0encoded.mp4";
+                    command += " ffmpeg.exe -y -i VIDEO1.mkv VIDEO0encoded.mp4";
+                    command += " ffmpeg.exe -y -i VIDEO2.mkv VIDEO0encoded.mp4";
+                    command += " ffmpeg.exe -y -i VIDEO3.mkv VIDEO0encoded.mp4";
+                    StartInfo.Arguments = command;
+                    StartInfo.FileName = "CMD.exe";
+                    Process.Start(StartInfo).WaitForExit();
+
+
+                    MessageBox.Show(VideosPerCore.ToString());
+                }*/
             }
             else if (Encoder.Text == "rav1e")
             {
@@ -202,44 +254,34 @@ namespace AV1TSUx0003
                 Process.Start(StartInfo).WaitForExit();
             }
         }
-
-
-
         private void CQ_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
-
         private void ConstantQuality_ValueChanged(object sender, EventArgs e)
         {
 
         }
-
         private void Multithreading_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
-
         private void PixelFormat_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
-
         private void Tiles_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
-
         private void AudioBitrate_ValueChanged(object sender, EventArgs e)
         {
 
         }
-
         private void Resolution_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
-
         private void Encoder_SelectedIndexChanged(object sender, EventArgs e)
         {
             if(Encoder.Text == "rav1e")
@@ -267,12 +309,10 @@ namespace AV1TSUx0003
                 EncodingMode.Enabled = true;
             }
         }
-
         private void Speed_ValueChanged(object sender, EventArgs e)
         {
 
         }
-
         private void EncodingMode_SelectedIndexChanged(object sender, EventArgs e)
         {
             if(EncodingMode.Text == "Constant Quality")
@@ -297,12 +337,10 @@ namespace AV1TSUx0003
             }
 
         }
-
         private void VideoBitrate_ValueChanged(object sender, EventArgs e)
         {
 
         }
-
         private void AudioChannel_SelectedIndexChanged(object sender, EventArgs e)
         {
 

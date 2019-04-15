@@ -314,7 +314,8 @@
             "Constant Quality",
             "Constrained Quality",
             "Two-Pass",
-            "Average Bitrate"});
+            "Average Bitrate",
+            "Experimental"});
             this.EncodingMode.Location = new System.Drawing.Point(138, 79);
             this.EncodingMode.Name = "EncodingMode";
             this.EncodingMode.Size = new System.Drawing.Size(121, 21);
